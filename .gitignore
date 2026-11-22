@@ -1,0 +1,10 @@
+# Sistem operasi / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Berkas lokal & log
+*.log
+.env
+config/database.local.php
