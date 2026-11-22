@@ -1,6 +1,6 @@
 /* ==========================================================================
    Kasir Toko — gaya antarmuka
-   Palet: kabut dingin + hijau-laguna. Satu keluarga huruf: Plus Jakarta Sans.
+   Palet: lavender lembut + ungu (terang & gelap). Satu keluarga huruf: Plus Jakarta Sans.
    ========================================================================== */
 /* Token warna — terang (default) */
 :root {
@@ -31,7 +31,7 @@
   --toast-bg: #1c1a2b;
   --toast-fg: #ffffff;
   --toast-accent: #c9bcff;
-  --nav-glass: var(--nav-glass);
+  --nav-glass: rgba(255, 255, 255, .92);
   --glow-1: #e3dcfb;
   --glow-2: #dfe6fb;
 
