@@ -40,22 +40,6 @@ pos-kasir/
 ├── index.php  login.php  logout.php
 ```
 
-## Pemetaan ke rubrik penilaian
-| Aspek | Letak di kode |
-|---|---|
-| Koneksi & PDO (prepared statement, error handling) | `config/database.php` (ERRMODE_EXCEPTION, `EMULATE_PREPARES=false`); semua query memakai placeholder; setiap halaman memakai `try/catch (PDOException)`, detail error hanya ke `error_log` |
-| Desain database & relasi | `database/kasir_db.sql`, `docs/ERD.md` (4 tabel saling terhubung lewat FK: admin→transaksi→detail_transaksi←produk; UNIQUE, CHECK) |
-| CRUD, pencarian, pagination | `produk/*`, `transaksi/riwayat.php`, `paginate()` di `includes/helpers.php` |
-| Transaction & logika bisnis | `includes/transaksi_service.php` — `SELECT … FOR UPDATE` mengunci baris stok, rollback bila stok/uang kurang, retry otomatis saat deadlock |
-| Keamanan | SQL injection: prepared statement · XSS: `e()` (= `htmlspecialchars`) di semua output · password: bcrypt · sesi: `session_regenerate_id`, cookie HttpOnly + SameSite, timeout idle · CSRF token di semua POST · harga selalu dibaca dari database (bukan dari browser) · whitelist redirect |
-| Kerapian & dokumentasi | struktur di atas, komentar kode, README ini |
-
-Query JOIN: `transaksi/struk.php`, `transaksi/riwayat.php`, `laporan/harian.php`. Agregasi: `COUNT`, `SUM` di beranda dan laporan.
-
-## Catatan
-- Ganti password default `admin123` sebelum dipakai sungguhan: buat hash baru dengan `php -r "echo password_hash('PasswordBaru', PASSWORD_DEFAULT);"` lalu `UPDATE admin SET password_hash = '…'`.
-- Pintasan kasir: tekan `/` untuk mencari; ketik kode produk lalu `Enter` untuk langsung menambahkannya (cocok untuk pemindai barcode).
-
 ## Berkontribusi (cara ikut commit)
 
 Panduan ini untuk anggota kelompok atau siapa pun yang ingin ikut mengubah proyek ini lewat GitHub.
@@ -115,4 +99,3 @@ Jika saat `git pull` muncul pesan *conflict*:
 - Jangan commit password database, file `.env`, atau data pribadi. File `.gitignore` sudah menyaring sebagian, tetapi tetap periksa dengan `git status` sebelum commit.
 - Jangan langsung push ke `main`; gunakan branch dan pull request.
 - Selalu jalankan `git pull origin main` sebelum mulai bekerja agar tidak ketinggalan perubahan teman.
-.
