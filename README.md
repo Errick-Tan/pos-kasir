@@ -53,3 +53,63 @@ Query JOIN: `transaksi/struk.php`, `transaksi/riwayat.php`, `laporan/harian.php`
 ## Catatan
 - Ganti password default `admin123` sebelum dipakai sungguhan: buat hash baru dengan `php -r "echo password_hash('PasswordBaru', PASSWORD_DEFAULT);"` lalu `UPDATE admin SET password_hash = '…'`.
 - Pintasan kasir: tekan `/` untuk mencari; ketik kode produk lalu `Enter` untuk langsung menambahkannya (cocok untuk pemindai barcode).
+
+## Berkontribusi (cara ikut commit)
+
+Panduan ini untuk anggota kelompok atau siapa pun yang ingin ikut mengubah proyek ini lewat GitHub.
+
+### A. Untuk pemilik repo: beri akses ke teman
+1. Buka repo `https://github.com/Mr-DSP/pos-kasir`, lalu klik **Settings → Collaborators → Add people**.
+2. Ketik username atau email GitHub teman Anda, pilih akunnya, lalu klik **Add**.
+3. Teman akan menerima undangan lewat email atau notifikasi GitHub. Ia harus menekan **Accept invitation** supaya bisa ikut commit.
+
+Untuk repo **Private**, hanya orang yang diundang dengan cara ini yang bisa melihat dan mengubah kode. Agar `main` tetap aman, sebaiknya semua orang bekerja di branch masing-masing lalu mengirim *pull request* (lihat bagian B).
+
+### B. Untuk kontributor yang sudah diundang
+1. **Salin repo ke komputer (sekali saja)**
+   ```bash
+   git clone https://github.com/Mr-DSP/pos-kasir.git
+   cd pos-kasir
+   ```
+2. **Siapkan lokal**: ikuti bagian *Cara menjalankan* di atas (impor `database/kasir_db.sql`, sesuaikan `config/database.php` untuk komputer Anda sendiri).
+3. **Ambil perubahan terbaru lalu buat branch baru** (satu branch untuk satu tujuan)
+   ```bash
+   git checkout main
+   git pull origin main
+   git checkout -b fitur/nama-singkat-fitur
+   ```
+4. **Ubah kode, lalu uji** sampai semua halaman terbuka tanpa error.
+5. **Commit perubahan**
+   ```bash
+   git status
+   git add .
+   git commit -m "tambah: filter produk berdasarkan stok"
+   ```
+6. **Kirim branch ke GitHub**
+   ```bash
+   git push -u origin fitur/nama-singkat-fitur
+   ```
+   Saat diminta login, gunakan akun GitHub Anda. Jika meminta password, pakai *Personal Access Token* (GitHub → Settings → Developer settings), atau gunakan GitHub Desktop.
+7. **Buka Pull Request**: di halaman repo, klik tombol **Compare & pull request**, tulis ringkasan perubahan, lalu klik **Create pull request**.
+8. **Review dan merge**: pemilik repo memeriksa perubahan lalu menekan **Merge pull request**. Setelah itu, perbarui komputer Anda:
+   ```bash
+   git checkout main
+   git pull origin main
+   ```
+
+### C. Belum diundang? Gunakan fork
+1. Klik **Fork** di pojok kanan atas halaman repo untuk membuat salinan di akun Anda.
+2. Clone fork tersebut (`git clone https://github.com/USERNAME-ANDA/pos-kasir.git`), buat branch, commit, dan push seperti bagian B langkah 3 sampai 6.
+3. Di GitHub, klik **Contribute → Open pull request** untuk mengirim perubahan ke repo asli.
+
+### D. Mengatasi konflik
+Jika saat `git pull` muncul pesan *conflict*:
+1. Buka file yang ditandai. Cari tanda `<<<<<<<`, `=======`, dan `>>>>>>>`, lalu pilih atau gabungkan isi yang benar dan hapus ketiga tanda itu.
+2. Jalankan `git add nama-file`, lalu `git commit`.
+3. Jalankan `git push` seperti biasa.
+
+### Aturan bersama
+- Tulis pesan commit singkat dan jelas dengan awalan seperti `tambah:`, `perbaiki:`, `ubah:`, atau `dokumentasi:`.
+- Jangan commit password database, file `.env`, atau data pribadi. File `.gitignore` sudah menyaring sebagian, tetapi tetap periksa dengan `git status` sebelum commit.
+- Jangan langsung push ke `main`; gunakan branch dan pull request.
+- Selalu jalankan `git pull origin main` sebelum mulai bekerja agar tidak ketinggalan perubahan teman.
