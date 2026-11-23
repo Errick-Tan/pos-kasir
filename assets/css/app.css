@@ -481,3 +481,12 @@ html.theme-anim *, html.theme-anim *::before, html.theme-anim *::after {
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; transition-duration: .01ms !important; scroll-behavior: auto !important; }
 }
+
+@keyframes denyut {
+  0%, 100% {opacity: 1;}
+  50% { opacity: 0.4;}
+}
+
+.badge-out {
+  animation: denyut 1.5s infinite;
+}
