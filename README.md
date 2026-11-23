@@ -5,6 +5,7 @@ Proyek Pemrograman Web — Studi Kasus 2. PHP native tanpa framework, MySQL/Mari
 ## Fitur
 - Login admin (`password_hash` / `password_verify`, sesi aman, auto-logout 30 menit)
 - **Kasir**: pilih produk → pesanan → bayar → struk. Pesanan bisa **diubah jumlahnya, dihapus per item, atau dikosongkan — semuanya bisa diurungkan**. Keranjang tersimpan di browser sehingga tidak hilang saat halaman dimuat ulang.
+- Setiap transaksi mencatat **kasir yang melayani** (`transaksi.id_admin` → `admin`), tampil di struk dan riwayat
 - Penyimpanan transaksi memakai **transaction** (`beginTransaction` / `commit` / `rollBack`); stok kurang ⇒ seluruh proses dibatalkan
 - Stok berkurang otomatis setelah transaksi berhasil
 - CRUD produk + pencarian + pagination
@@ -19,6 +20,7 @@ PHP 8.1+ (ekstensi `pdo_mysql`, `mbstring` — aktif secara bawaan di XAMPP) dan
 1. Salin folder ini ke `C:\xampp\htdocs\pos-kasir`.
 2. Jalankan **Apache** dan **MySQL** di XAMPP Control Panel.
 3. Buka `http://localhost/phpmyadmin` → **Import** → pilih `database/kasir_db.sql`.
+   - Sudah pernah impor versi lama? Jalankan `database/migrasi_admin_transaksi.sql` saja (menambah kolom `transaksi.id_admin` + foreign key).
 4. (Jika perlu) sesuaikan user/password database di `config/database.php`.
 5. Buka `http://localhost/pos-kasir/` dan masuk dengan **admin / admin123**.
 
@@ -33,7 +35,7 @@ pos-kasir/
 ├── transaksi/         baru (kasir), simpan, struk, riwayat
 ├── laporan/           harian
 ├── assets/            css/app.css, js/app.js, js/kasir.js
-├── database/          kasir_db.sql (struktur + data contoh)
+├── database/          kasir_db.sql (struktur + data contoh), migrasi_admin_transaksi.sql (untuk DB lama)
 ├── docs/              ERD.md
 ├── index.php  login.php  logout.php
 ```
@@ -42,7 +44,7 @@ pos-kasir/
 | Aspek | Letak di kode |
 |---|---|
 | Koneksi & PDO (prepared statement, error handling) | `config/database.php` (ERRMODE_EXCEPTION, `EMULATE_PREPARES=false`); semua query memakai placeholder; setiap halaman memakai `try/catch (PDOException)`, detail error hanya ke `error_log` |
-| Desain database & relasi | `database/kasir_db.sql`, `docs/ERD.md` (FK, UNIQUE, CHECK) |
+| Desain database & relasi | `database/kasir_db.sql`, `docs/ERD.md` (4 tabel saling terhubung lewat FK: admin→transaksi→detail_transaksi←produk; UNIQUE, CHECK) |
 | CRUD, pencarian, pagination | `produk/*`, `transaksi/riwayat.php`, `paginate()` di `includes/helpers.php` |
 | Transaction & logika bisnis | `includes/transaksi_service.php` — `SELECT … FOR UPDATE` mengunci baris stok, rollback bila stok/uang kurang, retry otomatis saat deadlock |
 | Keamanan | SQL injection: prepared statement · XSS: `e()` (= `htmlspecialchars`) di semua output · password: bcrypt · sesi: `session_regenerate_id`, cookie HttpOnly + SameSite, timeout idle · CSRF token di semua POST · harga selalu dibaca dari database (bukan dari browser) · whitelist redirect |

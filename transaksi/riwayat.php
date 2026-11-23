@@ -33,11 +33,13 @@ try {
 
     // JOIN + GROUP BY: jumlah jenis & jumlah barang tiap transaksi
     $st = $pdo->prepare(
-        "SELECT t.id_transaksi, t.tanggal, t.total_harga,
+        "SELECT t.id_transaksi, t.tanggal, t.total_harga, a.nama_lengkap AS kasir,
                 COUNT(d.id_detail) AS jenis, COALESCE(SUM(d.jumlah_beli), 0) AS qty
-         FROM transaksi t LEFT JOIN detail_transaksi d ON d.id_transaksi = t.id_transaksi
+         FROM transaksi t
+         JOIN admin a ON a.id_admin = t.id_admin
+         LEFT JOIN detail_transaksi d ON d.id_transaksi = t.id_transaksi
          $sqlWhere
-         GROUP BY t.id_transaksi, t.tanggal, t.total_harga
+         GROUP BY t.id_transaksi, t.tanggal, t.total_harga, a.nama_lengkap
          ORDER BY t.tanggal DESC, t.id_transaksi DESC
          LIMIT :lim OFFSET :off"
     );
@@ -78,12 +80,13 @@ layout_start('Riwayat transaksi', 'riwayat');
     <?php else: ?>
         <div class="table-wrap">
             <table class="table">
-                <thead><tr><th>No.</th><th>Waktu</th><th class="num">Barang</th><th class="num">Total</th><th><span class="sr-only">Aksi</span></th></tr></thead>
+                <thead><tr><th>No.</th><th>Waktu</th><th>Kasir</th><th class="num">Barang</th><th class="num">Total</th><th><span class="sr-only">Aksi</span></th></tr></thead>
                 <tbody>
                 <?php foreach ($rows as $r): ?>
                     <tr>
                         <td data-label="No."><strong>#<?= str_pad((string) $r['id_transaksi'], 5, '0', STR_PAD_LEFT) ?></strong></td>
                         <td data-label="Waktu"><?= e(tgl($r['tanggal'])) ?></td>
+                        <td data-label="Kasir"><?= e($r['kasir']) ?></td>
                         <td data-label="Barang" class="num"><?= (int) $r['qty'] ?> (<?= (int) $r['jenis'] ?> jenis)</td>
                         <td data-label="Total" class="num"><strong><?= e(rupiah($r['total_harga'])) ?></strong></td>
                         <td class="actions"><a class="btn btn-ghost btn-sm" href="<?= e(url('transaksi/struk.php?id=' . (int) $r['id_transaksi'])) ?>">Lihat struk</a></td>

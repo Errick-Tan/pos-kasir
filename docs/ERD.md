@@ -2,6 +2,7 @@
 
 ```mermaid
 erDiagram
+    ADMIN ||--o{ TRANSAKSI : "melayani"
     PRODUK ||--o{ DETAIL_TRANSAKSI : "dimasukkan ke"
     TRANSAKSI ||--|{ DETAIL_TRANSAKSI : "memiliki"
 
@@ -13,6 +14,7 @@ erDiagram
     }
     TRANSAKSI {
         int id_transaksi PK
+        int id_admin FK "kasir yang melayani"
         datetime tanggal
         decimal total_harga
         decimal bayar "tambahan"
@@ -35,15 +37,17 @@ erDiagram
     }
 ```
 
-**Perbedaan dari ERD awal (tiga tabel inti tidak berubah):**
+**Perbedaan dari ERD awal:**
 
 | Perubahan | Alasan |
 |---|---|
-| Tabel `admin` (berdiri sendiri, tanpa relasi) | Dibutuhkan fitur login dengan `password_hash()` / `password_verify()` |
+| Tabel `admin` | Dibutuhkan fitur login dengan `password_hash()` / `password_verify()` |
+| Kolom `transaksi.id_admin` (FK → `admin`) | Mencatat kasir yang melayani; tampil di struk dan riwayat, sekaligus menghubungkan `admin` dengan tabel lain |
 | Kolom `transaksi.bayar` dan `transaksi.kembalian` | Struk perlu menampilkan uang diterima dan kembalian |
 | `UNIQUE (id_transaksi, kode_produk)` pada detail | Satu produk hanya satu baris per transaksi; jumlah digabung |
-| `CHECK (stok >= 0)` dan `CHECK (jumlah_beli > 0)` | Lapisan pengaman terakhir di level database |
+| `CHECK (stok >= 0)`, `CHECK (jumlah_beli > 0)`, dan `CHECK (total_harga, bayar, kembalian >= 0)` | Lapisan pengaman terakhir di level database |
 
 **Aturan relasi**
+- `transaksi.id_admin → admin` : `ON DELETE RESTRICT` (admin yang sudah punya transaksi tidak bisa dihapus, agar riwayat kasir tetap utuh)
 - `detail_transaksi.id_transaksi → transaksi` : `ON DELETE CASCADE`
 - `detail_transaksi.kode_produk → produk` : `ON DELETE RESTRICT` (produk yang sudah terjual tidak bisa dihapus, agar riwayat tetap utuh)

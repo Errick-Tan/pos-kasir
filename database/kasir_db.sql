@@ -37,12 +37,17 @@ CREATE TABLE produk (
 
 CREATE TABLE transaksi (
   id_transaksi INT UNSIGNED  NOT NULL AUTO_INCREMENT,
+  id_admin     INT UNSIGNED  NOT NULL,              -- kasir/admin yang melayani transaksi
   tanggal      DATETIME      NOT NULL,
   total_harga  DECIMAL(12,2) NOT NULL DEFAULT 0,
   bayar        DECIMAL(12,2) NOT NULL DEFAULT 0,
   kembalian    DECIMAL(12,2) NOT NULL DEFAULT 0,
   PRIMARY KEY (id_transaksi),
-  KEY idx_transaksi_tanggal (tanggal)
+  KEY idx_transaksi_tanggal (tanggal),
+  KEY idx_transaksi_admin (id_admin),
+  CONSTRAINT fk_transaksi_admin FOREIGN KEY (id_admin)
+    REFERENCES admin (id_admin) ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT chk_transaksi_total CHECK (total_harga >= 0 AND bayar >= 0 AND kembalian >= 0)
 ) ENGINE=InnoDB;
 
 CREATE TABLE detail_transaksi (
@@ -84,15 +89,15 @@ INSERT INTO produk (kode, nama, harga, stok) VALUES
 ('BRG014', 'Keripik Kentang 68 g',     11000,   0),
 ('BRG015', 'Mie Kuah Soto',             3300,   5);
 
-INSERT INTO transaksi (id_transaksi, tanggal, total_harga, bayar, kembalian) VALUES
-(1, TIMESTAMP(CURDATE(), '09:15:00'),                      25500,  30000,  4500),
-(2, TIMESTAMP(CURDATE(), '11:40:00'),                      96000, 100000,  4000),
-(3, TIMESTAMP(CURDATE() - INTERVAL 1 DAY, '10:05:00'),     28000,  30000,  2000),
-(4, TIMESTAMP(CURDATE() - INTERVAL 1 DAY, '16:20:00'),     42500,  50000,  7500),
-(5, TIMESTAMP(CURDATE() - INTERVAL 2 DAY, '13:30:00'),     52000,  60000,  8000),
-(6, TIMESTAMP(CURDATE() - INTERVAL 3 DAY, '08:50:00'),     38500,  40000,  1500),
-(7, TIMESTAMP(CURDATE() - INTERVAL 4 DAY, '17:10:00'),     58000,  60000,  2000),
-(8, TIMESTAMP(CURDATE() - INTERVAL 5 DAY, '12:00:00'),     27500,  30000,  2500);
+INSERT INTO transaksi (id_transaksi, id_admin, tanggal, total_harga, bayar, kembalian) VALUES
+(1, 1, TIMESTAMP(CURDATE(), '09:15:00'),                      25500,  30000,  4500),
+(2, 1, TIMESTAMP(CURDATE(), '11:40:00'),                      96000, 100000,  4000),
+(3, 1, TIMESTAMP(CURDATE() - INTERVAL 1 DAY, '10:05:00'),     28000,  30000,  2000),
+(4, 1, TIMESTAMP(CURDATE() - INTERVAL 1 DAY, '16:20:00'),     42500,  50000,  7500),
+(5, 1, TIMESTAMP(CURDATE() - INTERVAL 2 DAY, '13:30:00'),     52000,  60000,  8000),
+(6, 1, TIMESTAMP(CURDATE() - INTERVAL 3 DAY, '08:50:00'),     38500,  40000,  1500),
+(7, 1, TIMESTAMP(CURDATE() - INTERVAL 4 DAY, '17:10:00'),     58000,  60000,  2000),
+(8, 1, TIMESTAMP(CURDATE() - INTERVAL 5 DAY, '12:00:00'),     27500,  30000,  2500);
 
 INSERT INTO detail_transaksi (id_transaksi, kode_produk, jumlah_beli, harga_satuan, subtotal) VALUES
 (1, 'BRG001', 5,  3500, 17500), (1, 'BRG002', 2,  4000,  8000),

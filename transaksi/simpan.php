@@ -28,7 +28,7 @@ if (!$items) {
 
 // 2. Simpan dengan transaction
 try {
-    $id = buat_transaksi(db(), $items, $bayar);
+    $id = buat_transaksi(db(), $items, $bayar, (int) current_admin()['id']);
     flash('ok', 'Transaksi berhasil disimpan.');
     redirect('transaksi/struk.php?id=' . $id . '&baru=1');
 } catch (BisnisException $e) {

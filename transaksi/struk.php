@@ -6,7 +6,9 @@ $id   = (int) ($_GET['id'] ?? 0);
 $baru = isset($_GET['baru']);
 
 try {
-    $st = db()->prepare('SELECT id_transaksi, tanggal, total_harga, bayar, kembalian FROM transaksi WHERE id_transaksi = :id');
+    $st = db()->prepare('SELECT t.id_transaksi, t.tanggal, t.total_harga, t.bayar, t.kembalian, a.nama_lengkap AS kasir
+                         FROM transaksi t JOIN admin a ON a.id_admin = t.id_admin
+                         WHERE t.id_transaksi = :id');
     $st->execute([':id' => $id]);
     $trx = $st->fetch();
 
@@ -56,6 +58,7 @@ layout_start('Struk #' . $id, 'riwayat', '', $baru ? 'data-clear-cart' : '');
     <dl class="receipt-meta">
         <div><dt>No.</dt><dd>#<?= str_pad((string) $trx['id_transaksi'], 5, '0', STR_PAD_LEFT) ?></dd></div>
         <div><dt>Tanggal</dt><dd><?= e(tgl($trx['tanggal'])) ?></dd></div>
+        <div><dt>Kasir</dt><dd><?= e($trx['kasir']) ?></dd></div>
     </dl>
     <hr>
     <ul class="receipt-items">

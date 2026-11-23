@@ -30,7 +30,9 @@ try {
     $st->execute();
     $stokTipis = $st->fetchAll();
 
-    $terbaru = $pdo->query('SELECT id_transaksi, tanggal, total_harga FROM transaksi ORDER BY tanggal DESC, id_transaksi DESC LIMIT 5')->fetchAll();
+    $st = $pdo->prepare('SELECT id_transaksi, tanggal, total_harga FROM transaksi ORDER BY tanggal DESC, id_transaksi DESC LIMIT 5');
+    $st->execute();
+    $terbaru = $st->fetchAll();
 } catch (PDOException $e) {
     error_log('[beranda] ' . $e->getMessage());
     http_response_code(500);

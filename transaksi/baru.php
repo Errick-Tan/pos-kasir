@@ -3,7 +3,9 @@ require dirname(__DIR__) . '/includes/bootstrap.php';
 require_login();
 
 try {
-    $produk = db()->query('SELECT kode, nama, harga, stok FROM produk ORDER BY nama ASC')->fetchAll();
+    $st = db()->prepare('SELECT kode, nama, harga, stok FROM produk ORDER BY nama ASC');
+    $st->execute();
+    $produk = $st->fetchAll();
 } catch (PDOException $e) {
     error_log('[kasir] ' . $e->getMessage());
     http_response_code(500);
