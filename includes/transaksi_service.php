@@ -1,9 +1,4 @@
 <?php
-/**
- * Logika bisnis transaksi penjualan (sesuai flowchart):
- *   START TRANSACTION -> insert header -> loop item { cek stok -> insert detail + kurangi stok }
- *   -> update total_harga -> COMMIT.   Jika stok tidak cukup: ROLLBACK semua.
- */
 declare(strict_types=1);
 
 /** Kesalahan yang aman ditampilkan ke pengguna (stok kurang, uang kurang, dsb). */
@@ -72,7 +67,7 @@ function jalankan_transaksi(PDO $pdo, array $items, int $bayar, int $idAdmin): i
                 ));
             }
 
-            $harga    = (int) round((float) $p['harga']);  // harga SELALU dari database, bukan dari browser
+            $harga    = (int) round((float) $p['harga']);  // harga agar SELALU dari database, bukan dari browser
             $subtotal = $harga * $qty;
             $total   += $subtotal;
 

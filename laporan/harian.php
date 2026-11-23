@@ -70,7 +70,7 @@ layout_start('Laporan penjualan', 'laporan');
 ?>
 <div class="page-head">
     <div>
-        <h1>Laporan penjualan harian</h1>
+        <h1>Laporan penjualan Bulanan</h1>
         <p><?= e(tgl($dari, false)) ?> – <?= e(tgl($sampai, false)) ?></p>
     </div>
     <button type="button" class="btn btn-ghost no-print" data-print><?= icon('printer', 18) ?>Cetak laporan</button>
