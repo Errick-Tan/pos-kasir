@@ -1,7 +1,6 @@
 <?php
 /**
  * Koneksi database dengan PDO.
- * Ubah nilai di bawah ini sesuai server MySQL/MariaDB Anda (XAMPP default: root tanpa password).
  */
 declare(strict_types=1);
 
