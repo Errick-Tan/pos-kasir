@@ -1,7 +1,3 @@
--- =====================================================================
---  Sistem Kasir Toko (Point of Sale) - struktur dan data contoh
---  Impor lewat phpMyAdmin atau:  mysql -u root -p < database/kasir_db.sql
--- =====================================================================
 CREATE DATABASE IF NOT EXISTS kasir_toko
   CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE kasir_toko;
