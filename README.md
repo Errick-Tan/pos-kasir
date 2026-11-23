@@ -113,3 +113,4 @@ Jika saat `git pull` muncul pesan *conflict*:
 - Jangan commit password database, file `.env`, atau data pribadi. File `.gitignore` sudah menyaring sebagian, tetapi tetap periksa dengan `git status` sebelum commit.
 - Jangan langsung push ke `main`; gunakan branch dan pull request.
 - Selalu jalankan `git pull origin main` sebelum mulai bekerja agar tidak ketinggalan perubahan teman.
+.
