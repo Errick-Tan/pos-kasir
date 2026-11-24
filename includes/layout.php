@@ -27,6 +27,11 @@ function layout_head(string $title, string $bodyClass = '', string $bodyAttr = '
 <?php
 }
 
+function brand_logo(string $extraClass = ''): string
+{
+    return '<img class="brand-logo' . ($extraClass !== '' ? ' ' . $extraClass : '') . '" src="' . e(url('assets/img/logo.png')) . '" alt="" width="58" height="38">';
+}
+
 function theme_toggle(): string
 {
     return '<button type="button" class="icon-btn theme-toggle" data-theme-toggle aria-label="Ganti ke mode gelap" title="Ganti tema">'
@@ -59,7 +64,7 @@ function layout_start(string $title, string $active = '', string $mainClass = ''
     ?>
 <div class="shell">
     <header class="topbar no-print">
-        <span class="brand"><span class="brand-mark"><?= icon('store', 20) ?></span><?= e(STORE_NAME) ?></span>
+        <span class="brand"><?= brand_logo() ?><?= e(STORE_NAME) ?></span>
         <div class="topbar-actions">
             <?= theme_toggle() ?>
             <form method="post" action="<?= e(url('logout.php')) ?>">
@@ -71,7 +76,7 @@ function layout_start(string $title, string $active = '', string $mainClass = ''
 
     <aside class="side no-print">
         <a class="brand" href="<?= e(url('index.php')) ?>">
-            <span class="brand-mark"><?= icon('store', 20) ?></span><?= e(STORE_NAME) ?>
+            <?= brand_logo() ?><?= e(STORE_NAME) ?>
         </a>
         <nav class="nav" aria-label="Menu utama">
             <?php foreach ($nav as $key => [$label, $ic, $href]): ?>

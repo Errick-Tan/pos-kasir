@@ -33,7 +33,7 @@ layout_head('Masuk', 'login-page');
 <div class="login-theme"><?= theme_toggle() ?></div>
 <main class="login">
     <section class="login-card">
-        <span class="brand-mark big"><?= icon('store', 28) ?></span>
+        <?= brand_logo('big') ?>
         <h1>Selamat datang di <?= e(STORE_NAME) ?></h1>
         <p class="muted">Masuk untuk mulai mencatat penjualan hari ini.</p>
 
