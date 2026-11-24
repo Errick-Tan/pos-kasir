@@ -69,9 +69,8 @@ Panduan ini untuk anggota kelompok atau siapa pun yang ingin ikut mengubah proye
 
 | Situasi | Jalur |
 |---|---|
-| Anda diundang sebagai collaborator | Bagian **B** |
-| Anda belum diundang | Bagian **C** (fork) lalu **D** (menjaga fork tetap terbaru) |
-| Anda pemilik repo dan ingin menambah anggota | Bagian **A** |
+| Anda diundang sebagai collaborator | Bagian **A** |
+| Anda belum diundang | Bagian **B** (fork) lalu **C** (menjaga fork tetap terbaru) |
 
 
 Agar `main` tetap aman, minta semua orang bekerja di branch masing-masing dan mengirim *pull request*.
