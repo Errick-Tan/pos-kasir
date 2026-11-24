@@ -28,7 +28,6 @@
     toggle: $('#cartToggle'), close: $('#cartClose'), q: $('#q'), noResult: $('#noResult'), grid: $('#pgrid'),
   };
 
-  // Pulihkan keranjang yang tersimpan (disesuaikan dengan stok terbaru)
   try {
     JSON.parse(localStorage.getItem(KEY) || '[]').forEach(([k, q]) => {
       const p = produk.get(k);
@@ -63,7 +62,6 @@
     render(kode);
   }
 
-  // Hapus satu pesanan dari keranjang — bisa diurungkan.
   function remove(kode) {
     const qty = cart.get(kode);
     if (!qty) return;
@@ -75,7 +73,6 @@
     });
   }
 
-  // Kosongkan seluruh pesanan — juga bisa diurungkan.
   function clearAll() {
     if (!cart.size) return;
     const snap = new Map(cart);
@@ -115,7 +112,7 @@
   }
 
   function render(touched) {
-    // baris yang sudah tidak ada -> animasi ciut lalu dilepas
+
     rows.forEach((li, k) => {
       if (cart.has(k)) return;
       rows.delete(k);
@@ -123,7 +120,6 @@
       setTimeout(() => li.remove(), reduceMotion ? 0 : 360);
     });
 
-    // baris baru / diperbarui (item terbaru tampil paling atas)
     cart.forEach((q, k) => {
       const p = produk.get(k);
       let li = rows.get(k);
@@ -236,7 +232,7 @@
 
   el.clear.addEventListener('click', clearAll);
 
-  // Pencarian instan; Enter menambah produk (cocok untuk pemindai barcode)
+
   el.q.addEventListener('input', () => {
     const t = el.q.value.trim().toLowerCase();
     let hits = 0;

@@ -8,13 +8,11 @@ $akhirHari = date('Y-m-d 00:00:00', strtotime('+1 day'));
 $awalBulan = date('Y-m-01 00:00:00');
 
 try {
-    // Agregasi: transaksi & pendapatan hari ini
     $st = $pdo->prepare('SELECT COUNT(*) AS jml, COALESCE(SUM(total_harga), 0) AS omzet
                          FROM transaksi WHERE tanggal >= :a AND tanggal < :b');
     $st->execute([':a' => $awalHari, ':b' => $akhirHari]);
     $hariIni = $st->fetch();
 
-    // JOIN + agregasi: item terjual hari ini
     $st = $pdo->prepare('SELECT COALESCE(SUM(d.jumlah_beli), 0)
                          FROM detail_transaksi d JOIN transaksi t ON t.id_transaksi = d.id_transaksi
                          WHERE t.tanggal >= :a AND t.tanggal < :b');

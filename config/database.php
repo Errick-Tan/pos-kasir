@@ -1,7 +1,4 @@
 <?php
-/**
- * Koneksi database dengan PDO.
- */
 declare(strict_types=1);
 
 define('DB_HOST', getenv('POS_DB_HOST') ?: '127.0.0.1');
@@ -11,9 +8,6 @@ define('DB_USER', getenv('POS_DB_USER') ?: 'root');
 define('DB_PASS', getenv('POS_DB_PASS') ?: '');
 define('DB_CHARSET', 'utf8mb4');
 
-/**
- * Mengembalikan satu koneksi PDO yang dipakai bersama (singleton).
- */
 function db(): PDO
 {
     static $pdo = null;
@@ -25,10 +19,10 @@ function db(): PDO
 
     try {
         $pdo = new PDO($dsn, DB_USER, DB_PASS, [
-            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,    // error menjadi PDOException
+            PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-            PDO::ATTR_EMULATE_PREPARES   => false,                     // prepared statement asli di sisi server
-            PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '+07:00'", // WIB
+            PDO::ATTR_EMULATE_PREPARES   => false,
+            PDO::MYSQL_ATTR_INIT_COMMAND => "SET time_zone = '+07:00'",
         ]);
     } catch (PDOException $e) {
         error_log('[DB] Koneksi gagal: ' . $e->getMessage());

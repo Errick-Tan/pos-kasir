@@ -17,7 +17,6 @@ try {
         redirect('transaksi/riwayat.php');
     }
 
-    // JOIN detail_transaksi dengan produk untuk mengambil nama barang
     $st = db()->prepare('SELECT d.kode_produk, p.nama, d.jumlah_beli, d.harga_satuan, d.subtotal
                          FROM detail_transaksi d JOIN produk p ON p.kode = d.kode_produk
                          WHERE d.id_transaksi = :id ORDER BY d.id_detail');

@@ -39,12 +39,10 @@ function jalankan_transaksi(PDO $pdo, array $items, int $bayar, int $idAdmin): i
     try {
         $pdo->beginTransaction();
 
-        // 1. Header transaksi (total diisi setelah semua item valid)
         $pdo->prepare('INSERT INTO transaksi (id_admin, tanggal, total_harga, bayar, kembalian) VALUES (:a, :t, 0, 0, 0)')
             ->execute([':a' => $idAdmin, ':t' => date('Y-m-d H:i:s')]);
         $idTransaksi = (int) $pdo->lastInsertId();
 
-        // Statement disiapkan sekali, dipakai berulang untuk tiap item
         $cek    = $pdo->prepare('SELECT nama, harga, stok FROM produk WHERE kode = :k FOR UPDATE'); // kunci baris
         $detail = $pdo->prepare(
             'INSERT INTO detail_transaksi (id_transaksi, kode_produk, jumlah_beli, harga_satuan, subtotal)
@@ -67,7 +65,7 @@ function jalankan_transaksi(PDO $pdo, array $items, int $bayar, int $idAdmin): i
                 ));
             }
 
-            $harga    = (int) round((float) $p['harga']);  // harga agar SELALU dari database, bukan dari browser
+            $harga    = (int) round((float) $p['harga']);
             $subtotal = $harga * $qty;
             $total   += $subtotal;
 
@@ -87,7 +85,7 @@ function jalankan_transaksi(PDO $pdo, array $items, int $bayar, int $idAdmin): i
         return $idTransaksi;
     } catch (Throwable $e) {
         if ($pdo->inTransaction()) {
-            $pdo->rollBack();   // batalkan header, detail, dan pengurangan stok
+            $pdo->rollBack();
         }
         throw $e;
     }

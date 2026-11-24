@@ -103,6 +103,8 @@ kbd { font: 600 12px/1 var(--font); padding: 3px 7px; border-radius: 6px; backgr
 .brand { display: flex; align-items: center; gap: 12px; padding: 0 8px; font-weight: 700; font-size: 17px; text-decoration: none; letter-spacing: -.01em; }
 .brand-mark { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--primary); color: #fff; flex: none; }
 .brand-mark.big { width: 56px; height: 56px; border-radius: 18px; margin-bottom: 8px; }
+.brand-logo { height: 38px; width: auto; flex: none; display: block; }
+.brand-logo.big { height: 76px; margin-bottom: 8px; justify-self: center; }
 .nav { display: grid; gap: 4px; }
 .nav a {
   display: flex; align-items: center; gap: 12px; padding: 11px 14px; border-radius: var(--r-m);

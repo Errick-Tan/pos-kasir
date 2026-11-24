@@ -8,12 +8,11 @@ $page = (int) ($_GET['page'] ?? 1);
 try {
     $pdo = db();
 
-    // Pencarian: kode ATAU nama. Karakter wildcard dari pengguna di-escape.
     $where  = '';
     $params = [];
     if ($q !== '') {
         $like   = '%' . addcslashes($q, '%_\\') . '%';
-        $where  = 'WHERE kode LIKE :q1 OR nama LIKE :q2';  // nama placeholder harus unik (emulate prepares = off)
+        $where  = 'WHERE kode LIKE :q1 OR nama LIKE :q2';
         $params = [':q1' => $like, ':q2' => $like];
     }
 

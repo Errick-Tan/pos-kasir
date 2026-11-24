@@ -9,7 +9,7 @@ $dari   = $validDate((string) ($_GET['dari'] ?? '')) ? $_GET['dari'] : date('Y-m
 if ($dari > $sampai) {
     [$dari, $sampai] = [$sampai, $dari];
 }
-// Batasi rentang maksimal 1 tahun agar halaman tetap ringan
+
 if (strtotime($sampai) - strtotime($dari) > 365 * 86400) {
     $dari = date('Y-m-d', strtotime($sampai . ' -365 days'));
 }
@@ -19,7 +19,6 @@ $batasAkhir = date('Y-m-d', strtotime($sampai . ' +1 day')) . ' 00:00:00';
 try {
     $pdo = db();
 
-    // Laporan harian: JOIN + GROUP BY tanggal + fungsi agregasi (COUNT, SUM)
     $st = $pdo->prepare(
         'SELECT DATE(t.tanggal) AS hari,
                 COUNT(DISTINCT t.id_transaksi) AS jml_transaksi,
@@ -34,7 +33,6 @@ try {
     $st->execute([':a' => $batasAwal, ':b' => $batasAkhir]);
     $harian = $st->fetchAll();
 
-    // Produk terlaris pada rentang yang sama
     $st = $pdo->prepare(
         'SELECT p.kode, p.nama, SUM(d.jumlah_beli) AS terjual, SUM(d.subtotal) AS pendapatan
          FROM detail_transaksi d
@@ -58,7 +56,7 @@ $totalTransaksi  = array_sum(array_column($harian, 'jml_transaksi'));
 $totalItem       = array_sum(array_column($harian, 'item_terjual'));
 $rata            = $totalTransaksi ? $totalPendapatan / $totalTransaksi : 0;
 $maks            = $harian ? max(array_map('floatval', array_column($harian, 'pendapatan'))) : 0;
-$grafik          = array_reverse($harian); // kronologis untuk grafik
+$grafik          = array_reverse($harian);
 
 $preset = [
     '7 hari terakhir' => [date('Y-m-d', strtotime('-6 days')), date('Y-m-d')],

@@ -40,13 +40,11 @@ function auth_login(string $username, string $password): bool
         return false;
     }
 
-    // Cegah session fixation
     session_regenerate_id(true);
     $_SESSION['admin_id']   = (int) $row['id_admin'];
     $_SESSION['admin_nama'] = $row['nama_lengkap'];
     $_SESSION['last_seen']  = time();
 
-    // Perbarui hash jika algoritma default PHP sudah berganti
     if (password_needs_rehash($row['password_hash'], PASSWORD_DEFAULT)) {
         $up = db()->prepare('UPDATE admin SET password_hash = :h WHERE id_admin = :id');
         $up->execute([':h' => password_hash($password, PASSWORD_DEFAULT), ':id' => $row['id_admin']]);

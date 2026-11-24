@@ -24,7 +24,7 @@
     try { localStorage.setItem('pos_theme', next); } catch (_) { /* abaikan */ }
     applyTheme(next);
   }));
-  // Ikuti perubahan tema sistem selama pengguna belum memilih sendiri
+
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change', e => {
     let saved = null;
     try { saved = localStorage.getItem('pos_theme'); } catch (_) { /* abaikan */ }
@@ -55,7 +55,7 @@
       el.append(b);
     }
     box.append(el);
-    // batasi jumlah toast yang tampil bersamaan
+
     while (box.children.length > 3) box.firstElementChild.remove();
     setTimeout(close, action ? Math.max(ttl, 6000) : ttl);
   };

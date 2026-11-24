@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } elseif (auth_login($username, $password)) {
             redirect('index.php');
         } else {
-            usleep(400000); // memperlambat tebak-tebakan password
+            usleep(400000);
             $error = 'Nama pengguna atau kata sandi salah.';
         }
     } catch (PDOException $e) {
@@ -33,7 +33,7 @@ layout_head('Masuk', 'login-page');
 <div class="login-theme"><?= theme_toggle() ?></div>
 <main class="login">
     <section class="login-card">
-        <span class="brand-mark big"><?= icon('store', 28) ?></span>
+        <?= brand_logo('big') ?>
         <h1>Selamat datang di <?= e(STORE_NAME) ?></h1>
         <p class="muted">Masuk untuk mulai mencatat penjualan hari ini.</p>
 

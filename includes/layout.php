@@ -11,7 +11,6 @@ function layout_head(string $title, string $bodyClass = '', string $bodyAttr = '
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title><?= e($title) ?> · <?= e(STORE_NAME) ?></title>
     <script>
-        // Terapkan tema tersimpan (atau ikut pengaturan sistem) sebelum halaman digambar
         try {
             var t = localStorage.getItem('pos_theme');
             if (t !== 'dark' && t !== 'light') t = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
@@ -25,6 +24,11 @@ function layout_head(string $title, string $bodyClass = '', string $bodyAttr = '
 </head>
 <body class="<?= e($bodyClass) ?>" <?= $bodyAttr ?>>
 <?php
+}
+
+function brand_logo(string $extraClass = ''): string
+{
+    return '<img class="brand-logo' . ($extraClass !== '' ? ' ' . $extraClass : '') . '" src="' . e(url('assets/img/logo.png')) . '" alt="" width="58" height="38">';
 }
 
 function theme_toggle(): string
@@ -59,7 +63,7 @@ function layout_start(string $title, string $active = '', string $mainClass = ''
     ?>
 <div class="shell">
     <header class="topbar no-print">
-        <span class="brand"><span class="brand-mark"><?= icon('store', 20) ?></span><?= e(STORE_NAME) ?></span>
+        <span class="brand"><?= brand_logo() ?><?= e(STORE_NAME) ?></span>
         <div class="topbar-actions">
             <?= theme_toggle() ?>
             <form method="post" action="<?= e(url('logout.php')) ?>">
@@ -71,7 +75,7 @@ function layout_start(string $title, string $active = '', string $mainClass = ''
 
     <aside class="side no-print">
         <a class="brand" href="<?= e(url('index.php')) ?>">
-            <span class="brand-mark"><?= icon('store', 20) ?></span><?= e(STORE_NAME) ?>
+            <?= brand_logo() ?><?= e(STORE_NAME) ?>
         </a>
         <nav class="nav" aria-label="Menu utama">
             <?php foreach ($nav as $key => [$label, $ic, $href]): ?>

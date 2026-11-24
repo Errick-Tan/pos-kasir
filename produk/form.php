@@ -29,7 +29,7 @@ try {
         $data['harga'] = preg_replace('/\D/', '', (string) ($_POST['harga'] ?? ''));
         $data['stok']  = trim((string) ($_POST['stok'] ?? ''));
 
-        // Validasi sisi server
+        
         if (!preg_match('/^[A-Z0-9_-]{1,20}$/', $data['kode'])) {
             $errors['kode'] = 'Kode 1–20 karakter: huruf, angka, strip (-), atau garis bawah (_).';
         }
@@ -55,7 +55,7 @@ try {
                 flash('ok', $edit ? 'Perubahan produk disimpan.' : 'Produk baru ditambahkan.');
                 redirect('produk/index.php');
             } catch (PDOException $e) {
-                if ((int) ($e->errorInfo[1] ?? 0) === 1062) {      // duplicate entry pada PRIMARY KEY
+                if ((int) ($e->errorInfo[1] ?? 0) === 1062) {
                     $errors['kode'] = 'Kode sudah dipakai produk lain.';
                 } else {
                     throw $e;

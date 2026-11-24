@@ -3,7 +3,7 @@ require dirname(__DIR__) . '/includes/bootstrap.php';
 require_login();
 require_post();
 
-// 1. Baca & validasi keranjang dari browser (isinya hanya kode + jumlah; harga selalu diambil dari DB)
+
 $cart  = json_decode((string) ($_POST['cart'] ?? ''), true);
 $bayar = (int) preg_replace('/\D/', '', (string) ($_POST['bayar'] ?? ''));
 $items = [];
@@ -26,15 +26,15 @@ if (!$items) {
     redirect('transaksi/baru.php');
 }
 
-// 2. Simpan dengan transaction
+
 try {
     $id = buat_transaksi(db(), $items, $bayar, (int) current_admin()['id']);
     flash('ok', 'Transaksi berhasil disimpan.');
     redirect('transaksi/struk.php?id=' . $id . '&baru=1');
 } catch (BisnisException $e) {
-    flash('error', $e->getMessage());               // pesan aman: stok kurang, uang kurang, dsb.
+    flash('error', $e->getMessage());
 } catch (PDOException $e) {
     error_log('[simpan] ' . $e->getMessage());
     flash('error', 'Terjadi kesalahan pada database. Transaksi dibatalkan, stok tidak berubah.');
 }
-redirect('transaksi/baru.php');   // keranjang tetap tersimpan di browser, kasir bisa memperbaikinya
+redirect('transaksi/baru.php');

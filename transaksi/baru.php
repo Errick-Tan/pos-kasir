@@ -12,7 +12,6 @@ try {
     exit('Terjadi kesalahan saat membaca produk.');
 }
 
-// Data produk untuk JavaScript (di-encode aman untuk disisipkan ke HTML)
 $json = json_encode(array_map(fn($p) => [
     'kode' => $p['kode'], 'nama' => $p['nama'], 'harga' => (int) round((float) $p['harga']), 'stok' => (int) $p['stok'],
 ], $produk), JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE);

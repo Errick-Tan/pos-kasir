@@ -1,13 +1,10 @@
 <?php
-/**
- * Dimuat oleh setiap halaman: sesi, konfigurasi, helper, autentikasi.
- */
+
 declare(strict_types=1);
 
 define('APP_ROOT', dirname(__DIR__));
 date_default_timezone_set('Asia/Pontianak');
 
-// BASE_URL dihitung otomatis dari posisi folder proyek terhadap document root.
 $docRoot = rtrim(str_replace('\\', '/', (string) realpath($_SERVER['DOCUMENT_ROOT'] ?? '')), '/');
 $appRoot = str_replace('\\', '/', APP_ROOT);
 define('BASE_URL', $docRoot !== '' && str_starts_with($appRoot, $docRoot) ? substr($appRoot, strlen($docRoot)) : '');

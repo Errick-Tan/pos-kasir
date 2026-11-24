@@ -1,7 +1,6 @@
 <?php
 declare(strict_types=1);
 
-/** Escape output (anti-XSS). Gunakan untuk SEMUA data yang dicetak ke HTML. */
 function e(?string $value): string
 {
     return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
@@ -23,7 +22,6 @@ function rupiah(int|float|string $n): string
     return 'Rp ' . number_format((float) $n, 0, ',', '.');
 }
 
-/** Format tanggal Indonesia: 22 Nov 2026, 10:46 */
 function tgl(string $datetime, bool $withTime = true): string
 {
     static $bulan = ['', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -126,7 +124,6 @@ function pagination_html(array $pg, array $query, string $path): string
 
 /* ---------- UI kecil ---------- */
 
-/** Status stok: [label, kelas CSS] */
 function status_stok(int $stok): array
 {
     if ($stok <= 0) {
