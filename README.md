@@ -73,14 +73,10 @@ Panduan ini untuk anggota kelompok atau siapa pun yang ingin ikut mengubah proye
 | Anda belum diundang | Bagian **C** (fork) lalu **D** (menjaga fork tetap terbaru) |
 | Anda pemilik repo dan ingin menambah anggota | Bagian **A** |
 
-### A. Pemilik repo: beri akses ke teman
-1. Buka repo `https://github.com/Mr-DSP/pos-kasir`, lalu **Settings → Collaborators → Add people**.
-2. Ketik username atau email GitHub teman, pilih akunnya, lalu klik **Add**.
-3. Teman menerima undangan lewat email atau notifikasi GitHub dan harus menekan **Accept invitation**.
 
 Agar `main` tetap aman, minta semua orang bekerja di branch masing-masing dan mengirim *pull request*.
 
-### B. Kontributor yang sudah diundang
+### A. Kontributor yang sudah diundang
 1. **Salin repo ke komputer (sekali saja)**
    ```bash
    git clone https://github.com/Mr-DSP/pos-kasir.git
@@ -112,7 +108,7 @@ Agar `main` tetap aman, minta semua orang bekerja di branch masing-masing dan me
    git pull origin main
    ```
 
-### C. Belum diundang: gunakan fork
+### B. Belum diundang: gunakan fork
 1. Klik **Fork** di pojok kanan atas halaman repo untuk membuat salinan di akun Anda.
 2. Salin fork Anda ke komputer:
    ```bash
@@ -122,7 +118,7 @@ Agar `main` tetap aman, minta semua orang bekerja di branch masing-masing dan me
 3. Lanjutkan dengan langkah 3 sampai 6 pada bagian B (buat branch, ubah, commit, push ke fork Anda).
 4. Di GitHub, klik **Contribute → Open pull request** untuk mengirim perubahan ke repo asli.
 
-### D. Menjaga fork tetap up to date
+### C. Menjaga fork tetap up to date
 Repo asli terus berubah karena kontributor lain. Fork Anda tidak ikut berubah secara otomatis, jadi sinkronkan sebelum mulai bekerja dan sebelum membuka pull request.
 
 **Cara 1: lewat website GitHub (paling mudah)**
@@ -163,7 +159,7 @@ Jika muncul konflik, selesaikan dengan langkah di bagian E.
 - Jangan mengubah kode langsung di `main` milik fork. Anggap `main` sebagai cermin repo asli, dan kerjakan semuanya di branch.
 - Jika `git merge upstream/main` menolak karena Anda sempat mengubah `main`, simpan perubahan itu ke branch baru (`git checkout -b cadangan`), lalu kembalikan `main` dengan `git checkout main` dan `git reset --hard upstream/main`. Perintah `reset --hard` menghapus perubahan lokal di `main`, jadi pastikan sudah dicadangkan.
 
-### E. Mengatasi konflik
+### D. Mengatasi konflik
 Jika saat `git pull` atau `git merge` muncul pesan *conflict*:
 1. Buka file yang ditandai. Cari tanda `<<<<<<<`, `=======`, dan `>>>>>>>`, pilih atau gabungkan isi yang benar, lalu hapus ketiga tanda itu.
 2. Jalankan `git add nama-file`, lalu `git commit`.
