@@ -29,7 +29,7 @@ Aplikasi kasir berbasis web dengan **PHP native** dan **MySQL/MariaDB** yang dia
 1. Salin folder proyek ke `C:\xampp\htdocs\pos-kasir`.
 2. Jalankan **Apache** dan **MySQL** di XAMPP Control Panel.
 3. Buka `http://localhost/phpmyadmin`, pilih **Import**, lalu unggah `database/kasir_db.sql`.
-4. Jika perlu, sesuaikan pengguna dan kata sandi database di `config/database.php`.
+4. Jika perlu, sesuaikan pengguna, dan kata sandi database di `config/database.php`.
 5. Buka `http://localhost/pos-kasir/` dan masuk dengan akun contoh di bawah.
 
 ### Tanpa XAMPP
