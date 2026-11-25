@@ -181,5 +181,5 @@ Jika saat `git pull` atau `git merge` muncul pesan *conflict*:
 - Jalankan `git pull origin main` (atau sinkronkan fork) sebelum mulai bekerja.
 
 ## Catatan
-- Folder `config/`, `includes/`, dan `database/` dilindungi `.htaccess` (`Require all denied`) agar tidak bisa dibuka langsung dari browser di Apache.
+- Folder `config/`, `includes/`, dan `database/` dilindungi `.htaccess` (`Require all denied`) agar, tidak bisa dibuka langsung dari browser di Apache.
 - Diagram relasi database ada di `docs/ERD.md`.
